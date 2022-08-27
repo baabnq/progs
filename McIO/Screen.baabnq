@@ -107,7 +107,7 @@ lab Screen::Put;
 lab Screen::Demo;
     sub Screen::Init;
     sub Screen::Clear;
-    static 'Hello World' _Ptr;
+    static 'why oh god why' _Ptr;
 
     lab Screen::Demo::Loop;
         put _Data <- _Ptr;
@@ -123,7 +123,7 @@ lab Screen::Demo;
     return; 
 
     lab Screen::Demo::ReSch;
-        asm '/ schedule!function!{name}:{Screen::Demo::Loop}!2s';
+        asm '/ schedule!function!{name}:{Screen::Demo::Loop}!1t';
         asm 'brk';
 
 lab Screen::Skip;

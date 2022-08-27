@@ -1,5 +1,4 @@
 "translated form: http://rosettacode.org/wiki/Mandelbrot_set#B
-"BUGGY AF, NEGATIVS NOT HANDLED COREECTLY
 
 
 use 'libs/math.baabnq';
@@ -27,6 +26,7 @@ put _maxiter = 32;
 
 put _dx = 145;
 put _dy = 409;
+
 
 put _cy = _ymin;
 lab While1;
@@ -109,7 +109,6 @@ lab While1;
             jump While3;
         lab Exit3;
         
-        "print _iter;
         putchr _iter + 32;
         
         put _cx = _cx + _dx;
