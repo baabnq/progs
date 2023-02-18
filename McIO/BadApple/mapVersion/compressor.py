@@ -35,19 +35,19 @@ while True:
         
         xComFrame = cv2.resize(xFrame, TARGETSIZE)
                 
-        cv2.imshow('frame', xComFrame)
-        cv2.waitKey(1)
+        #cv2.imshow('frame', xComFrame)
+        #cv2.waitKey(1)
         
-        #xBoolFrame   = [[list(y) == [255, 255, 255]    for y in x] for x in xComFrame]
-        #xRenderFrame = [(WHITEVAL if x else BLACKVAL)  for x in itertools.chain.from_iterable(xBoolFrame)]
+        xIntFrame   = [[(1 if sum(y) > 127 * 3 else 0) for y in x] for x in xComFrame]
+        xRenderFrame = [[WHITEVAL, BLACKVAL][x] for x in itertools.chain.from_iterable(xIntFrame)]
                         
-        #xNbtFile = nbt.nbt.NBTFile("map.dat")        
-        #xNbtFile['data']['colors'].value = xRenderFrame
+        xNbtFile = nbt.nbt.NBTFile("map.dat")        
+        xNbtFile['data']['colors'].value = xRenderFrame
 
-        #with open(f"maps\\map_{xFrameIndex + STARTINDEX}.dat".format(), "wb") as xFile:        
-        #    xNbtFile.write_file(fileobj = xFile)
+        with open(f"maps\\map_{xFrameIndex + STARTINDEX}.dat", "wb") as xFile:        
+            xNbtFile.write_file(fileobj = xFile)
         
-        #print("\n".join(["".join([("#" if y else "_") for y in x]) for x in xBoolFrame]))
+        #print("\n".join(["".join([["_", "#"][y] for y in x]) for x in xIntFrame]))
         #time.sleep((1/TARGETFPS))
         xFrameIndex += 1
         

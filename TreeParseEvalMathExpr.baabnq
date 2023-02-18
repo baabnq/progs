@@ -16,9 +16,9 @@ lab Parse;
     push _ReturnAddr;
 
     "push _InputStr;    
-    "putstr 32;
+    "putchr 32;
     "sub String::PrintString;
-    "putstr 10;
+    "putchr 10;
 
 
     "construct the node and alloc on the heap

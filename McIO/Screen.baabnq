@@ -107,7 +107,7 @@ lab Screen::Put;
 lab Screen::Demo;
     sub Screen::Init;
     sub Screen::Clear;
-    static 'why oh god why' _Ptr;
+    static 'hello world' _Ptr;
 
     lab Screen::Demo::Loop;
         put _Data <- _Ptr;

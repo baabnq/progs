@@ -1,0 +1,189 @@
+use 'libs/float.baabnq';
+
+put _XLimit = 100;
+put _YLimit = 50;
+put _MaxColorVal = 255;
+put _IterLimit = 10;
+
+put _Zx = 0;
+put _Zy = 0;
+
+push 4;
+sub Floats::Value2Fp;
+pull _EscRad; "squared
+
+
+jump skip;
+
+lab constByFrac;
+    sub Stack::Swap;
+    sub Floats::Value2Fp;
+    push 10;
+    sub Floats::Value2Fp;
+    sub Floats::Div;
+    sub Stack::Swap;
+    return;
+    
+lab updateZ2;
+    push _Zx;
+    push _Zx;
+    sub Floats::Mul;
+    pull _Zx2;
+    push _Zy;
+    push _Zy;
+    sub Floats::Mul;
+    pull _Zy2;
+
+    return;    
+
+lab skip;
+
+
+
+"CxMin=-2.5
+push 25;
+sub constByFrac;
+pull _CxMin;
+put _CxMin = _CxMin | _SIGN_MASK; "make negativ
+
+"CxMax=1.5
+push 15;
+sub constByFrac;
+pull _CxMax;
+
+"CyMin=-2.0
+push 1;
+sub Floats::Value2Fp;
+pull _CyMin;
+put _CyMin = _CyMin | _SIGN_MASK;
+
+"CyMin=2.0
+push 1;
+sub Floats::Value2Fp;
+pull _CyMax;
+
+"PixelWidth = (CxMax - CxMin) / XLimit;
+push _CxMax;
+push _CxMin ^ _SIGN_MASK;
+sub Floats::Add;
+
+push _XLimit;
+sub Floats::Value2Fp;
+sub Floats::Div;
+
+pull _PixelWidth;
+
+"PixelHeight = (CyMax - CyMin) / YLimit;
+push _CyMax;
+push _CyMin ^ _SIGN_MASK;
+sub Floats::Add;
+
+push _YLimit;
+sub Floats::Value2Fp;
+sub Floats::Div;
+
+pull _PixelHeight;
+
+
+"Zx, Zy;
+"Zx2, Zy2;
+put _Zx  = _FpZero;
+put _Zy  = _FpZero;
+put _Zx2 = _FpZero;
+put _Zy2 = _FpZero;
+
+put _YIter = 1;
+lab yLoop;
+    push _PixelHeight;
+    push _YIter;
+    sub Floats::Value2Fp;
+    sub Floats::Mul;
+    push _CyMin;
+    sub Floats::Add;
+    pull _Cy;
+
+    put _XIter = 1;
+    lab xLoop;
+        push _PixelWidth;
+        push _XIter;
+        sub Floats::Value2Fp;
+        sub Floats::Mul;
+        push _CxMin;
+        sub Floats::Add;
+        pull _Cx;
+    
+        "init
+        put _Zx = _FpZero;
+        put _Zy = _FpZero;    
+        put _Zx2 = _FpZero;
+        put _Zy2 = _FpZero;
+
+        put _Iter = 0;    
+
+
+        lab iLoop;
+            "check max
+            jump iDone ~ _Iter == _IterLimit;
+
+            "check esc
+            push _Zx2;
+            push _Zy2;
+            sub Floats::Add;
+            push _EscRad ^ _SIGN_MASK;
+            sub Floats::Add;
+            pull _Delta;            
+            jump iDone ~ 0 == _Delta & _SIGN_MASK;
+                "actual iter calcs
+                "Zy=2*Zx*Zy + Cy;
+                "Zx=Zx2-Zy2 + Cx;
+                "Zx2=Zx*Zx;
+                "Zy2=Zy*Zy;
+
+
+                push _Zx;
+                push _Zy;
+                sub Floats::Mul;
+                push 2;
+                sub Floats::Value2Fp;
+                sub Floats::Mul;
+                push _Cy;
+                sub Floats::Add;
+                pull _Zy;
+
+                push _Zx2;
+                push _Zy2 ^ _SIGN_MASK;
+                sub Floats::Add;
+                push _Cx;
+                sub Floats::Add;
+                pull _Zx;
+
+                sub updateZ2;
+
+            put _Iter = _Iter + 1;
+        jump iLoop;
+        lab iDone;
+
+        "render '#' if part of mandel else ' '
+        put _Char = 46;
+        jump skipHash ~ _Iter != _IterLimit;
+            put _Char = 35;
+        lab skipHash;
+            
+        putchr _Char;
+    
+        put _XIter = _XIter + 1;
+    jump xLoop ~ _XIter < _XLimit + 2;
+
+    putchr 10;
+
+    put _YIter = _YIter + 1;
+jump yLoop ~ _YIter < _YLimit + 2;
+
+
+
+
+
+
+
+
+
