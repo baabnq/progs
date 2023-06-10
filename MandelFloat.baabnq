@@ -1,9 +1,9 @@
 use 'libs/float.baabnq';
 
-put _XLimit = 100;
-put _YLimit = 50;
+put _XLimit = 200;
+put _YLimit = 100;
 put _MaxColorVal = 255;
-put _IterLimit = 10;
+put _IterLimit = 200;
 
 put _Zx = 0;
 put _Zy = 0;

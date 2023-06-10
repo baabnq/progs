@@ -38,7 +38,7 @@ lab Parse;
     "scaning does not call anything so we don't need that namespacing thing
 
     push _InputStr;
-    sub String::GetSize;
+    sub String::StrLen;
     pull _InputSize;
 
 
@@ -99,7 +99,7 @@ lab Parse;
 
         "find size of substrings
         push _InputStr;
-        sub String::GetSize;
+        sub String::StrLen;
         pull _MainSize;
         put _SubSize1 = _ScanPtr - _InputStr;
         put _SubSize2 = ((_MainSize + _InputStr) - _ScanPtr) - 1;
@@ -111,12 +111,12 @@ lab Parse;
         push _InputStr;
         push _SubStrPtr1;
         push _SubSize1;
-        sub String::CopyN;
+        sub String::MemCpy;
 
         push _ScanPtr + 1;
         push _SubStrPtr2;
         push _SubSize2;
-        sub String::CopyN;
+        sub String::MemCpy;
 
         "save the ThisNodePtr
         push _ThisNodePtr;
