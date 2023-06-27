@@ -6,6 +6,7 @@ use 'libs/string.baabnq';
 put _OpAdd = 43;
 put _OpSub = 45;
 put _OpMul = 42;
+put _OpDiv = 47;
 
 jump Skip;
 
@@ -15,11 +16,10 @@ lab Parse;
     pull _InputStr;
     push _ReturnAddr;
 
-    "push _InputStr;    
+    "push _InputStr;
     "putchr 32;
     "sub String::PrintString;
     "putchr 10;
-
 
     "construct the node and alloc on the heap
     "mapping of the data inside the node
@@ -41,21 +41,69 @@ lab Parse;
     sub String::StrLen;
     pull _InputSize;
 
+    "scan for least bracketed operator
+    put _LowBackLvl = 0 - 1;
+    put _Temp = 0;
+    put _i = 0;
+    lab Parse::ScanBrack;
+        put _Data <- _InputStr + _i;
+        put _i = _i + 1;
+        jump Parse::ScanBrackDone ~ _Data == 0;
+        
+        jump Parse::ScanBrackOpen ~ _Data == 40;
+        jump Parse::ScanBrackClse ~ _Data == 41;
+        jump Parse::ScanBrackUptd ~ _Data != 32;
+        jump Parse::ScanBrack;
 
+        lab Parse::ScanBrackOpen;
+            put _Temp = _Temp + 1;
+            jump Parse::ScanBrack;
+        lab Parse::ScanBrackClse;
+            put _Temp = _Temp - 1;
+            jump Parse::ScanBrack;
+                        
+        lab Parse::ScanBrackUptd;
+            jump Parse::ScanBrack ~ _LowBackLvl < _Temp; "lowest possible
+            put _LowBackLvl = _Temp;
+            jump Parse::ScanBrack;
+
+    lab Parse::ScanBrackDone;
+
+    "scan for operator
     put _ScanPtr = _InputStr + _InputSize;
+    put _BrackLvl = 0;
     lab Parse::FindLvL1;
     put _Data <- _ScanPtr;
+
+    push _BrackLvl;
+    sub Math::Dec ~ _Data == 40;
+    sub Math::Inc ~ _Data == 41;
+    pull _BrackLvl;
+
+    jump Parse::FindLvL1::Skip ~ _BrackLvl != _LowBackLvl;
     jump Parse::OpFound ~ _Data == _OpAdd;
     jump Parse::OpFound ~ _Data == _OpSub;
+    lab Parse::FindLvL1::Skip;
 
     put _ScanPtr = _ScanPtr - 1;
     jump Parse::FindLvL1 ~ _ScanPtr != _InputStr;
 
 
     put _ScanPtr = _InputStr + _InputSize;
+    put _BrackLvl = 0;
     lab Parse::FindLvL2;
     put _Data <- _ScanPtr;
+
+    push _BrackLvl;
+    sub Math::Dec ~ _Data == 40;
+    sub Math::Inc ~ _Data == 41;
+    pull _BrackLvl;
+
+    jump Parse::FindLvL2::Skip ~ _BrackLvl != _LowBackLvl;
     jump Parse::OpFound ~ _Data == _OpMul;
+    jump Parse::OpFound ~ _Data == _OpDiv;
+    lab Parse::FindLvL2::Skip;
+
     "wow space for formatting, very cool (also this comment is useless)
     put _ScanPtr = _ScanPtr - 1;
     jump Parse::FindLvL2 ~ _ScanPtr != _InputStr;
@@ -93,35 +141,109 @@ lab Parse;
 
     "after finding the operator alloc space for the substrings
     lab Parse::OpFound;
-        put _Op = _Data;
+
+        put _Op <- _ScanPtr;
         put _Op -> _ThisNodePtr + 1;
+
+        "scan for brackets, only 'till found operator
+        put _HeadCount = 0;
+        put _TailCount = 0;
+
+        put _i = _InputStr;
+        lab Parse::CountHeadBrackets::Loop;
+            jump Parse::CountHeadBrackets::Done ~ _i == _ScanPtr;
+            put _Data <- _i;
+            put _i = _i + 1;
+            jump Parse::CountHeadBrackets::Open ~ _Data == 40; "chr(40) = '('
+            jump Parse::CountHeadBrackets::Clse ~ _Data == 41; "chr(41) = ')'
+            jump Parse::CountHeadBrackets::Loop;
+
+            lab Parse::CountHeadBrackets::Open;
+                put _HeadCount = _HeadCount + 1;
+                jump Parse::CountHeadBrackets::Loop;
+            lab Parse::CountHeadBrackets::Clse;
+                put _HeadCount = _HeadCount - 1;
+                jump Parse::CountHeadBrackets::Loop;                
+
+        lab Parse::CountHeadBrackets::Done;
+
+        push _InputStr;
+        push _InputStr;
+        sub String::StrLen;
+        sub Math::Add;
+        pull _i;
+        lab Parse::CountTailBrackets::Loop;
+            jump Parse::CountTailBrackets::Done ~ _i == _ScanPtr;
+            put _i = _i - 1;
+            put _Data <- _i;
+            jump Parse::CountTailBrackets::Open ~ _Data == 40; "chr(40) = '('
+            jump Parse::CountTailBrackets::Clse ~ _Data == 41; "chr(41) = ')'
+            jump Parse::CountTailBrackets::Loop;
+
+            lab Parse::CountTailBrackets::Open;
+                put _TailCount = _TailCount - 1;
+                jump Parse::CountTailBrackets::Loop;
+            lab Parse::CountTailBrackets::Clse;
+                put _TailCount = _TailCount + 1;
+                jump Parse::CountTailBrackets::Loop;                
+
+        lab Parse::CountTailBrackets::Done;
+
+
+        put _HeadOffset = 0;
+        lab Parse::HeadOffset::Loop;
+            jump Parse::HeadOffset::Done ~ _HeadCount == 0;
+            put _Data <- _HeadOffset + _InputStr;
+            put _HeadOffset = _HeadOffset + 1;
+
+            push _HeadCount;
+            sub Math::Dec ~ _Data == 40;
+            pull _HeadCount;
+            
+        jump Parse::HeadOffset::Loop;
+        lab Parse::HeadOffset::Done;
+
+        put _TailOffset = 0;
+        lab Parse::TailOffset::Loop;
+            jump Parse::TailOffset::Done ~ _TailCount == 0;
+            put _Data <- (_InputSize + _InputStr - 1) - _TailOffset;
+            put _TailOffset = _TailOffset + 1;
+
+            push _TailCount;
+            sub Math::Dec ~ _Data == 41;
+            pull _TailCount;
+            
+        jump Parse::TailOffset::Loop;
+        lab Parse::TailOffset::Done;
 
 
         "find size of substrings
         push _InputStr;
         sub String::StrLen;
         pull _MainSize;
-        put _SubSize1 = _ScanPtr - _InputStr;
-        put _SubSize2 = ((_MainSize + _InputStr) - _ScanPtr) - 1;
+        put _SubSize1 = (_ScanPtr - _InputStr) - _HeadOffset;
+        put _SubSize2 = (((_MainSize + _InputStr) - _ScanPtr) - 1) - _TailOffset;
 
         new _SubSize1 + 1 _SubStrPtr1;
         new _SubSize2 + 1 _SubStrPtr2;
 
         "populate alloced memory
-        push _InputStr;
+        push _InputStr + _HeadOffset;
         push _SubStrPtr1;
         push _SubSize1;
         sub String::MemCpy;
+        put 0 -> _SubStrPtr1 + _SubSize1;
 
         push _ScanPtr + 1;
         push _SubStrPtr2;
         push _SubSize2;
         sub String::MemCpy;
+        put 0 -> _SubStrPtr2 + _SubSize2;
 
         "save the ThisNodePtr
         push _ThisNodePtr;
 
-        "save even the StrPtrs, for freeing memory later (can't have the shit leakin')
+        "save even the StrPtrs, for freeing memory later (can't have the shit leaking)
         push _SubStrPtr1;
         push _SubStrPtr2;
 
@@ -222,6 +344,7 @@ lab Eval;
         sub Math::Add ~ _Value == _OpAdd;
         sub Math::Sub ~ _Value == _OpSub;
         sub Math::Mul ~ _Value == _OpMul;
+        sub Math::Div ~ _Value == _OpDiv;
 
 
         "flip with return value
@@ -306,7 +429,9 @@ lab Skip;
 
 "new '2 * 2 - 2 + 1' _MainStr;
 "new '3 * 2 + 10 + 7 * 7' _MainStr;
-new '18 + 51 - 2 - 83 + 17 * 100' _MainStr;
+"new '18 + 51 - 2 - 83 + 17 * 100' _MainStr;
+
+new '6 / 2 * ( 1 + 2 )' _MainStr;
 
 "parse
 push _MainStr;

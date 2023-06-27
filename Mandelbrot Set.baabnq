@@ -36,9 +36,6 @@ lab While1;
     lab While2;
         jump Exit2 ~ (_xmax - _cx) >> 15 == 1;
         
-        "print _cx;
-        "print _cy;
-
         push 0;
         sub Floats::Value2Fp;
         sub Stack::Dup;
