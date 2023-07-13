@@ -1,7 +1,7 @@
 use 'libs/float.baabnq';
 
-put _XLimit = 200;
-put _YLimit = 100;
+put _XLimit = 160;
+put _YLimit = 40;
 put _MaxColorVal = 255;
 put _IterLimit = 200;
 
@@ -112,6 +112,8 @@ lab yLoop;
         sub Floats::Add;
         pull _Cx;
     
+
+
         "init
         put _Zx = _FpZero;
         put _Zy = _FpZero;    
@@ -125,13 +127,20 @@ lab yLoop;
             "check max
             jump iDone ~ _Iter == _IterLimit;
 
-            "check esc
+            "print _Zx2;
+            "print _Zy2;
+
+           "check esc
             push _Zx2;
             push _Zy2;
             sub Floats::Add;
             push _EscRad ^ _SIGN_MASK;
             sub Floats::Add;
-            pull _Delta;            
+            pull _Delta;
+
+            "print _Delta & _SIGN_MASK;
+            "putchr 10;
+
             jump iDone ~ 0 == _Delta & _SIGN_MASK;
                 "actual iter calcs
                 "Zy=2*Zx*Zy + Cy;
@@ -160,6 +169,9 @@ lab yLoop;
                 sub updateZ2;
 
             put _Iter = _Iter + 1;
+            "print _Zx;
+            "print _Zy;
+
         jump iLoop;
         lab iDone;
 
