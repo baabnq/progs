@@ -1,0 +1,84 @@
+"just a lil use test for Trig::Sin
+"... e.jitexi i.nu !!!
+
+
+use 'libs/trig.baabnq';
+use 'libs/string.baabnq';
+
+put _radius = 8;
+put _alpha = _FpZero;
+
+push _radius;
+sub Floats::Value2Fp;
+pull _fradius;
+
+
+static '\033[1;1H\033[2J' _sClear;
+
+
+lab loop;
+    
+    "calc
+    push _alpha;
+    sub Trig::Sin;
+    
+    push _alpha;
+    push 31744;
+    sub Floats::Add;
+    sub Trig::Sin;    
+
+    "conversion
+    push _fradius;
+    sub Floats::Mul;
+    sub Floats::Fp2Value;
+    sub Stack::Dup;
+    pull _vy;
+
+    push _radius + 1;
+    sub Math::Add;
+    pull _y;
+
+    push _fradius;
+    sub Floats::Mul;
+    sub Floats::Fp2Value;
+    sub Stack::Dup;
+    pull _vx;
+
+    push _radius + 1;
+    sub Math::Add;
+    pull _x;
+
+
+    "reset alpha
+    "needed because eventually floating point rounding
+    "will make it impossible to add small numbers to alpha    
+    jump skip ~ _vx != 0;
+    jump skip ~ _vy != _radius;
+        put _alpha = _FpZero;
+    lab skip;
+
+    "render
+    push _sClear;
+    sub String::Print;
+            
+    lab yloop;
+        putchr 10;
+        put _y = _y - 1;
+    jump yloop ~ _y > 0;
+
+    lab xloop;
+        putchr 32;
+        put _x = _x - 1;
+    jump xloop ~ _x > 0;
+
+    putchr 35;
+
+
+    push 31308;
+    push _alpha;
+    sub Floats::Add;
+    pull _alpha;
+    
+jump loop;
+
+
