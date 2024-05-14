@@ -6,7 +6,7 @@ use 'libs/trig.baabnq';
 use 'libs/string.baabnq';
 
 put _radius = 8;
-put _alpha = _FpZero;
+put _alpha = _Floats::Zero;
 
 push _radius;
 sub Floats::Value2Fp;
@@ -54,7 +54,7 @@ lab loop;
     "will make it impossible to add small numbers to alpha    
     jump skip ~ _vx != 0;
     jump skip ~ _vy != _radius;
-        put _alpha = _FpZero;
+        put _alpha = _Floats::Zero;
     lab skip;
 
     "render

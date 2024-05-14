@@ -87,10 +87,10 @@ pull _PixelHeight;
 
 "Zx, Zy;
 "Zx2, Zy2;
-put _Zx  = _FpZero;
-put _Zy  = _FpZero;
-put _Zx2 = _FpZero;
-put _Zy2 = _FpZero;
+put _Zx  = _Floats::Zero;
+put _Zy  = _Floats::Zero;
+put _Zx2 = _Floats::Zero;
+put _Zy2 = _Floats::Zero;
 
 put _YIter = 1;
 lab yLoop;
@@ -115,10 +115,10 @@ lab yLoop;
 
 
         "init
-        put _Zx = _FpZero;
-        put _Zy = _FpZero;    
-        put _Zx2 = _FpZero;
-        put _Zy2 = _FpZero;
+        put _Zx  = _Floats::Zero;
+        put _Zy  = _Floats::Zero;    
+        put _Zx2 = _Floats::Zero;
+        put _Zy2 = _Floats::Zero;
 
         put _Iter = 0;    
 
