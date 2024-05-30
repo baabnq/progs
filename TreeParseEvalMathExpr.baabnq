@@ -8,6 +8,9 @@ put _OpSub = 45;
 put _OpMul = 42;
 put _OpDiv = 47;
 
+put _StartLevel = 0;
+put _StopLevel = 0;
+
 jump Skip;
 
 lab Parse;
@@ -382,12 +385,12 @@ lab FreeExprTree;
         return;
 
 
-
+"THIS IS THE MOST SCUFFED SHIT I'VE EVER WRITTEN
 lab PrintExprTree;
     pull _ReturnAddr;
     pull _Ptr;
     push _ReturnAddr;
-
+    
 
     put _Type  <- _Ptr + 0;
     put _Value <- _Ptr + 1;
@@ -400,28 +403,80 @@ lab PrintExprTree;
         put _SubNodePtr1 <- _Ptr + 2;
         put _SubNodePtr2 <- _Ptr + 3;
 
-        putchr 32;
+        sub PrintExprTree::Format;
+        putchr 40;
         putchr _Value;
+        putchr 41;
+        putchr 10;
         
         push _SubNodePtr2;
         push _SubNodePtr1;
-        
-        putchr 40;
-        
+
+        put _StopLevel = _StopLevel + 1; 
         sub PrintExprTree;
-        putchr 32;
+        put _StartLevelIncTrigger = 1;
         sub PrintExprTree;
-        
-        putchr 41;
+        put _StopLevel  = _StopLevel  - 1;
+        put _StartLevel = _StartLevel - 1;
         
         
         
         return;
 
     lab PrintExprTree::FoundValue;
+        sub PrintExprTree::Format;
         print _Value;
+        putchr 10;
         return;
 
+    lab PrintExprTree::Format;
+        put _i = 0;
+        jump PrintExprTree::Format::Skip ~ _StopLevel == 0;
+        lab PrintExprTree::Format::Loop;
+            sub PrintExprTree::PrintSkip ~ _i < _StartLevel;
+            sub PrintExprTree::PrintLevel ~ _i > _StartLevel;
+            sub PrintExprTree::PrintLevel ~ _i == _StartLevel;
+            put _i = _i + 1;
+        jump PrintExprTree::Format::Loop ~ _i < _StopLevel;
+        lab PrintExprTree::Format::Skip;
+        sub PrintExprTree::Dash;
+        sub PrintExprTree::Dash;
+        sub PrintExprTree::Dash ~ _Type != 0;
+
+        push _StartLevel;
+        sub Math::Inc ~ _StartLevelIncTrigger > 0;
+        pull _StartLevel;
+        put _StartLevelIncTrigger = 0;
+        
+        return;
+
+    lab PrintExprTree::Dash;
+        putchr 45;
+        return;
+
+    lab PrintExprTree::PrintLevel;
+        putchr 32;
+        putchr 32;
+        putchr 32;
+        sub PrintExprTree::PrintLevel::Line  ~ _StartLevelIncTrigger == 0;
+        sub PrintExprTree::PrintLevel::Slash ~ _StartLevelIncTrigger != 0; 
+        return;
+        
+    lab PrintExprTree::PrintLevel::Line;
+        putchr 124;
+        return;
+        
+    lab PrintExprTree::PrintLevel::Slash;
+        jump PrintExprTree::PrintLevel::Line ~ _i + 1 < _StopLevel;
+        putchr 96;
+        return;
+
+    lab PrintExprTree::PrintSkip;
+        putchr 32;
+        putchr 32;
+        putchr 32;
+        putchr 32;
+        return;
 
 lab Skip;
 
@@ -429,9 +484,9 @@ lab Skip;
 
 "new '2 * 2 - 2 + 1' _MainStr;
 "new '3 * 2 + 10 + 7 * 7' _MainStr;
-"new '18 + 51 - 2 - 83 + 17 * 100' _MainStr;
+new '18 + 51 - 2 - 83 + 17 * 100' _MainStr;
 
-new '6 / 2 * ( 1 + 2 )' _MainStr;
+"new '2 + 3 * (4 + 1)' _MainStr;
 
 "parse
 push _MainStr;
@@ -446,13 +501,13 @@ pull _FinalValue;
 "print results
 push _TreePtr;
 sub PrintExprTree;
-new '   ->\n' _TempStr;
+
+static '\n\n = ' _TempStr;
 push _TempStr;
-sub String::PrintString;
+sub String::Print;
 print _FinalValue;
 
 "free memory, cuz' why not
 free _MainStr;
-free _TempStr;
 push _TreePtr;
 sub FreeExprTree;
