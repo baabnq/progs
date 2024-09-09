@@ -455,9 +455,7 @@ lab PrintExprTree;
         return;
 
     lab PrintExprTree::PrintLevel;
-        putchr 32;
-        putchr 32;
-        putchr 32;
+        sub PrintExprTree::Spacer;
         sub PrintExprTree::PrintLevel::Line  ~ _StartLevelIncTrigger == 0;
         sub PrintExprTree::PrintLevel::Slash ~ _StartLevelIncTrigger != 0; 
         return;
@@ -472,7 +470,11 @@ lab PrintExprTree;
         return;
 
     lab PrintExprTree::PrintSkip;
+        sub PrintExprTree::Spacer;
         putchr 32;
+        return;
+
+    lab PrintExprTree::Spacer;
         putchr 32;
         putchr 32;
         putchr 32;
@@ -484,9 +486,11 @@ lab Skip;
 
 "new '2 * 2 - 2 + 1' _MainStr;
 "new '3 * 2 + 10 + 7 * 7' _MainStr;
-new '18 + 51 - 2 - 83 + 17 * 100' _MainStr;
+"new '18 + 51 - 2 - 83 + 17 * 100' _MainStr;
 
 "new '2 + 3 * (4 + 1)' _MainStr;
+
+new '12 + (5 * 6 - (24 / 3 + 8))' _MainStr;
 
 "parse
 push _MainStr;
