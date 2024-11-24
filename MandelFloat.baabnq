@@ -1,9 +1,13 @@
 use 'libs/float.baabnq';
+use 'libs/string.baabnq';
+use 'libs/math.baabnq';
 
-put _XLimit = 160;
-put _YLimit = 40;
+put _size = 200;
+
+put _XLimit = _size;
+put _YLimit = _size >> 2;
 put _MaxColorVal = 255;
-put _IterLimit = 200;
+put _IterLimit = 20;
 
 put _Zx = 0;
 put _Zy = 0;
@@ -11,6 +15,8 @@ put _Zy = 0;
 push 4;
 sub Floats::Value2Fp;
 pull _EscRad; "squared
+
+static '.:-;!/>)|&IH%*# ' _pPalette;
 
 
 jump skip;
@@ -175,12 +181,15 @@ lab yLoop;
         jump iLoop;
         lab iDone;
 
-        "render '#' if part of mandel else ' '
-        put _Char = 46;
-        jump skipHash ~ _Iter != _IterLimit;
-            put _Char = 35;
-        lab skipHash;
-            
+        
+        push _Iter;
+        push 15;
+        sub Math::Mul;
+        push _IterLimit;
+        sub Math::Div;
+        pull __; 
+                
+        put _Char <- _pPalette + __;
         putchr _Char;
     
         put _XIter = _XIter + 1;
