@@ -1,0 +1,77 @@
+use 'libs/stack.baabnq';
+
+
+
+jump skip;
+lab Sum2dArray;
+    sub Stack::Swap;
+    pull _Sum2dArray::2dArrayAddress;
+    
+    "iter the rows
+    "get size of main array, compiler places it at index -1
+    put _Sum2dArray::RowSize <- _Sum2dArray::2dArrayAddress - 1;
+    put _Sum2dArray::RowSize = _Sum2dArray::RowSize - 1; "dec by one because the compiler also counts the word in with it stores the size, the one that just got read
+    put _Sum2dArray::RowIndex = 0;
+   
+    "THE SUM
+    "!!!!!!!!
+    put _Sum2dArray::THESUM = 0;
+    "!!!!!!!!
+   
+   
+    lab Sum2dArray::RowIter;
+        put _Sum2dArray::ColumPtr <- _Sum2dArray::2dArrayAddress + _Sum2dArray::RowIndex;
+
+        "find size of sub array
+        put _Sum2dArray::ColumSize <- _Sum2dArray::ColumPtr - 1;
+        put _Sum2dArray::ColumSize = _Sum2dArray::ColumSize - 1;
+        put _Sum2dArray::ColumIndex = 0;
+        lab Sum2dArray::ColumIter;
+            put _Sum2dArray::Value <- _Sum2dArray::ColumPtr + _Sum2dArray::ColumIndex;
+            put _Sum2dArray::THESUM = _Sum2dArray::THESUM + _Sum2dArray::Value;
+
+            put _Sum2dArray::ColumIndex = _Sum2dArray::ColumIndex + 1;
+            jump Sum2dArray::ColumIter ~ _Sum2dArray::ColumIndex != _Sum2dArray::ColumSize;
+
+        
+        put _Sum2dArray::RowIndex = _Sum2dArray::RowIndex + 1;        
+        jump Sum2dArray::RowIter ~ _Sum2dArray::RowIndex != _Sum2dArray::RowSize;
+
+
+    push _Sum2dArray::THESUM;
+    sub Stack::Swap;
+    return;
+lab skip;
+
+
+
+
+"init 2d array
+"2d array using a main array with pointers to the sub-arrays
+new 3 _PointerArray;
+
+new 3 _TempPtr;
+put _TempPtr -> _PointerArray + 0;
+put 5 -> _TempPtr + 0;
+put 3 -> _TempPtr + 1;
+put 7 -> _TempPtr + 2;
+
+new 3 _TempPtr;
+put _TempPtr -> _PointerArray + 1;
+put 8 -> _TempPtr + 0;
+put 0 -> _TempPtr + 1;
+put 1 -> _TempPtr + 2;
+
+new 3 _TempPtr;
+put _TempPtr -> _PointerArray + 2;
+put 100 -> _TempPtr + 0;
+put 16 -> _TempPtr + 1;
+put 555 -> _TempPtr + 2;
+
+"should be 695
+
+push _PointerArray;
+sub Sum2dArray;
+
+pull _Result;
+print _Result;

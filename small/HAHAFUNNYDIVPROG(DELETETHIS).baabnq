@@ -1,0 +1,41 @@
+use 'libs/math.baabnq';
+use 'libs/string.baabnq';
+
+
+
+
+new 'Numerator: ' _PromptPtr;
+push _PromptPtr;
+sub String::PrintString;
+free _PromptPtr;
+
+input _Value1;
+
+new 'Denominator: ' _PromptPtr;
+push _PromptPtr;
+sub String::PrintString;
+free _PromptPtr;
+
+input _Value2;
+
+
+jump DivBy0 ~ _Value2 == 0;
+
+
+push _Value1;
+push _Value2;
+sub Math::Div;
+pull _Output;
+
+print _Output;
+
+jump Exit;
+
+
+
+lab DivBy0;
+new 'https://www.youtube.com/watch?v=YSDTPPM9qsc\n' _IdiotPtr;
+push _IdiotPtr;
+sub String::PrintString;
+lab Exit;
+

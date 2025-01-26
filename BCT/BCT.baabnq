@@ -1,0 +1,145 @@
+use 'libs/stack.baabnq';
+
+"BCT bitwise cyclic tag interpreter (for ct lang)
+"https://esolangs.org/wiki/Bitwise_Cyclic_Tag
+
+"This proof that Baabnq and S1monsAssembly are turing complete,
+"what a revelation!!!!!
+
+"this program runs a language for a bct, called cl
+"here's the semantics (important to note is, if you didnot read the esolangs article, that bct store all data in a binary queue)
+
+" ; -> remove element from end of queue and discard it (101 -> 01, 011 -> 11)
+" 0 -> if the end of the queue is a 1, then append a 0 to the queue (10 -> 100, 0 -> 0)
+" 1 -> if the end of the queue is a 1, then append a 1 to the queue (10 -> 101, 0 -> 0)
+
+"that's it, those are all the commands
+
+
+"the queue is implemented using a bunch of linked nodes
+"a node is defined like this:
+"    NPtr + 0     next node ptr (0 for end)
+"    NPtr + 1     content
+
+
+
+
+
+"define the program and data
+static '1010;01;' _G::Prog;
+static '1001'     _G::Data;
+put _G::ProgSize <- _G::Prog - 1;
+put _G::StartNodePtr = 0;
+put _G::EndNodePtr = 0;
+
+
+"execution pointer
+put _Ep = 0;
+
+
+
+jump Skip;
+"print queue from _StartNodePtr
+lab PrintQueue;
+    put _Data = _G::StartNodePtr;
+    lab PrintQueue::Loop;
+        put _Temp <- _Data;
+        put _Content <- _Data + 1;
+        print _Content;
+        
+        jump PrintQueue::Exit ~ _Temp == 0;
+        put _Data = _Temp;
+        jump PrintQueue::Loop;
+    lab PrintQueue::Exit;
+    putchr 10;
+return;
+
+"helper for reseting epstein...   i mean execution pointer
+lab ResetEp;
+    put _Ep = 0;
+return;
+
+lab Skip;
+
+
+
+
+
+
+
+
+"convert data to nodes in memory
+lab Convert;
+    "check if terminator is reached
+    put _Temp <- _G::Data;
+    jump Convert::Exit ~ _Temp == 0;
+    put _G::Data = _G::Data + 1;
+
+    new 2 _TempPtr;
+"   put 0          -> _TempPtr;
+    put _Temp - 48 -> _TempPtr + 1;
+    
+    jump Convert::FirstNode ~ _G::StartNodePtr == 0;
+
+    "link new node into last node
+    put _TempPtr -> _G::EndNodePtr;
+    put _G::EndNodePtr = _TempPtr;
+    jump Convert;
+    
+lab Convert::FirstNode;
+    put _G::StartNodePtr = _TempPtr;    
+    put _G::EndNodePtr = _TempPtr;
+    jump Convert;
+
+lab Convert::Exit;
+
+
+
+
+
+
+lab Interpret;
+    "check if program is out of index
+    sub ResetEp ~ _Ep > _G::ProgSize - 3;
+    put _Command <- _G::Prog + _Ep;
+    put _Ep = _Ep + 1;
+
+    "print current state of queue
+    sub PrintQueue;
+    push 250;
+    asm 'plugin Time::SleepMs';    
+
+
+
+    jump Interpret::Discard   ~ _Command == 59;
+    jump Interpret::IfAppend0 ~ _Command == 48;
+    jump Interpret::IfAppend1 ~ _Command == 49;
+    jump Interpret;
+
+    lab Interpret::Discard;
+        put _TempPtr <- _G::StartNodePtr;
+        free _G::StartNodePtr;
+        put _G::StartNodePtr = _TempPtr;
+    jump Interpret;
+    lab Interpret::IfAppend0;
+        "check abort condition (first node in list is 0)
+        put _Data <- _G::StartNodePtr + 1;
+        jump Interpret ~ _Data == 0;
+
+        new 2 _TempPtr;
+        put 0 -> _TempPtr + 1;
+        put _TempPtr -> _G::EndNodePtr;
+        put _G::EndNodePtr = _TempPtr;
+    jump Interpret;
+    lab Interpret::IfAppend1;
+        "check abort condition (first node in list is 0)
+        put _Data <- _G::StartNodePtr + 1;
+        jump Interpret ~ _Data == 0;
+
+        new 2 _TempPtr;
+        put 1 -> _TempPtr + 1;
+        put _TempPtr -> _G::EndNodePtr;
+        put _G::EndNodePtr = _TempPtr;
+    jump Interpret;
+
+        

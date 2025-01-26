@@ -1,0 +1,46 @@
+use 'libs/stack.baabnq';
+
+
+jump skip;
+lab sum;
+sub Stack::Swap;
+pull _sum::arrayPtr;
+put _sum::sum = 0;
+put _sum::size <- _sum::arrayPtr - 1;
+
+lab sum::iter;
+"get current value and add to sum
+put _data <- _sum::arrayPtr;
+put _sum::sum = _sum::sum + _data;
+
+"inc ptr and dec size
+put _sum::arrayPtr = _sum::arrayPtr + 1;
+put _sum::size = _sum::size - 1;
+jump sum::iter ~ _sum::size != 0;
+
+push _sum::sum;
+sub Stack::Swap;
+return;
+
+
+lab skip;
+
+
+
+
+
+
+"init array
+static 5 _array;
+
+put 3 -> _array + 0;
+put 2 -> _array + 1;
+put 6 -> _array + 2;
+put 1 -> _array + 3;
+put 9 -> _array + 4;
+
+push _array;
+sub sum;
+pull _value;
+print _value;
+

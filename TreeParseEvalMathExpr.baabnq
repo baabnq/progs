@@ -11,6 +11,7 @@ put _OpDiv = 47;
 put _StartLevel = 0;
 put _StopLevel = 0;
 
+
 jump Skip;
 
 lab Parse;
@@ -426,7 +427,7 @@ lab PrintExprTree;
     lab PrintExprTree::FoundValue;
         sub PrintExprTree::Format;
         print _Value;
-        putchr 10;
+        "putchr 10;
         return;
 
     lab PrintExprTree::Format;
@@ -488,9 +489,9 @@ lab Skip;
 "new '3 * 2 + 10 + 7 * 7' _MainStr;
 "new '18 + 51 - 2 - 83 + 17 * 100' _MainStr;
 
-"new '2 + 3 * (4 + 1)' _MainStr;
+new '2 + 3 * (4 + 1)' _MainStr;
 
-new '12 + (5 * 6 - (24 / 3 + 8))' _MainStr;
+"new '12 + (5 * 6 - (24 / 3 + 8))' _MainStr;
 
 "parse
 push _MainStr;

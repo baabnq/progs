@@ -1,0 +1,45 @@
+
+use 'libs/math.baabnq';
+
+"baabnq program to demonstrate the
+"area and perimeter of rectangle
+"https://www.geeksforgeeks.org/c-program-to-find-area-and-perimeter-of-rectangle/
+
+put _l = 10;
+put _b = 10;
+
+push 10;
+push 10;
+sub Rect::Area;
+pull __; print __;
+
+push 10;
+push 10;
+sub Rect::Perimeter;
+pull __; print __;
+
+
+asm 'brk;';
+
+"(Height::Int, Length::Int) => (Perimeter::Int)
+lab Rect::Perimeter;
+    sub Stack::Swap; pull _l;
+    sub Stack::Swap; pull _h;
+
+    push (_l + _h) << 1;
+    sub Stack::Swap;
+    return;
+
+
+
+"(Height::Int, Length::Int) => (Area::Int)
+lab Rect::Area;
+    sub Stack::Swap; pull _l;
+    sub Stack::Swap; pull _h;
+
+    push _l;
+    push _h;
+    sub Math::Mul;
+
+    sub Stack::Swap;
+    return;

@@ -1,0 +1,113 @@
+use 'libs/float.baabnq';
+use 'libs/math.baabnq';
+
+"in honor of ada lovelace, the worlds first programmer
+"translated from ada.c
+
+"nth bern number
+put _nBern = 4;
+
+"first three are given
+static 3 _pBern;
+put 31530 -> _pBern + 0; " 1.0f / 6.0f
+put 64008 -> _pBern + 1; "-1.0f / 30.0f
+put 31171 -> _pBern + 2; " 1.0f / 42.0f
+
+"loop init
+push (_nBern << 1) - 1; "(2*n-1) / (2*n + 1)
+sub Floats::Value2Fp;
+push (_nBern << 1) + 1;
+sub Floats::Value2Fp;
+
+sub Floats::Div;
+
+push 2; "-0.5f * ...
+sub Floats::Value2Fp;
+sub Floats::Div;
+sub Floats::SetSign;
+pull _out;
+
+push _nBern << 1; "float num = 2 * n
+sub Floats::Value2Fp;
+pull _num;
+
+push 2;      "float den = 2
+sub Floats::Value2Fp;
+pull _den;
+
+push _num;   "float acc = num / den
+push _den;
+sub Floats::Div;
+pull _acc;
+
+"out += bern[0] * acc
+put _bern <- _pBern + 0;
+push _bern;
+push _acc;
+sub Floats::Mul;
+push _out;
+sub Floats::Add;
+pull _out;
+
+"int cnt = (int)n - 2;
+put _cnt = _nBern - 2;
+
+"juging by the way and intent, the original program is written
+"i think it's fair to assume, that ada wrote it to be expandable and thus dynamic
+"so i will attmpt similarly
+put _iBurn = 0;
+lab mainLoop;
+    "each iteration of this loop, two more bern numbers are computed, the even ones are skiped
+    "therefore this sub loop must be ran two times per loop as well, if that makes any sense
+
+
+    put _j = 0;
+    lab propLoop;
+        "num--;
+        push _num;
+        push 31872; "31872 ^= (float16)1;
+        sub Floats::SetSign;
+        sub Floats::Add;
+        pull _num;
+
+        "den++;
+        push _den;
+        push 31872;
+        sub Floats::Add;
+        pull _den;
+
+        "acc *= (--num) / (++den)
+        push _num;
+        push _den;
+        sub Floats::Div;
+        push _acc;
+        sub Floats::Mul;
+        pull _acc;    
+
+        put _j = _j + 1;
+        jump propLoop ~ _j < 2;
+
+    "out += acc * bern[i + 1]
+    put _bern <- _pBern + _iBurn + 1;
+    push _bern;
+    push _acc;
+    sub Floats::Mul;
+    push _out;
+    sub Floats::Add;
+    pull _out;
+    
+    put _cnt = _cnt - 1;
+
+    put _iBurn = _iBurn + 1;
+    jump mainLoop ~ _cnt > 0;
+
+"printf("B7: %.2f\n", -out)
+push _out;
+sub Floats::SetSign;
+pull _out;
+
+
+
+
+
+

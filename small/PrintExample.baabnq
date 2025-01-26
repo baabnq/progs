@@ -1,0 +1,6 @@
+put _a = 3;
+
+print 2;
+print _a;
+print _a + 1;
+"the output of this program is: '2\n3\n4\n'

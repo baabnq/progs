@@ -1,0 +1,21 @@
+"this programs goal is to count one billion
+"it does this by splitting up the number into 2 16-bit words
+
+
+"(15258 << 16) + 51712 = 1000000000 
+put _low  = 51712;
+put _high = 15258;
+
+
+lab loop;
+    "dec low, check carry
+    put _low = _low - 1;
+    jump loop ~ _low != 0 - 1;
+
+    "dec high, check carry
+    put _high = _high - 1;
+
+    print _high;
+
+jump loop ~ _high != 0 - 1;
+

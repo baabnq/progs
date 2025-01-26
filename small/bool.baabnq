@@ -1,0 +1,30 @@
+
+use 'libs/string.baabnq';
+
+static 'Matching: ' _pStr;
+
+put _i = 0;
+lab loop;
+  put _a = 1 & (_i >> 4);
+  put _b = 1 & (_i >> 3);
+  put _c = 1 & (_i >> 2);
+  put _d = 1 & (_i >> 1);
+  put _e = 1 & (_i >> 0);
+
+  jump cont ~ _a | _b == 0;
+  jump cont ~ _a & _b & _d == 1;
+  jump cont ~ _a ^ _c == 1;
+  jump cont ~ _b == _c;
+  jump cont ~ _c != 1;
+  jump cont ~ _a ^ _d != 0;
+  jump cont ~ _d == 0;
+  jump cont ~ _e == 1;
+  jump cont ~ _a | _d == 0;
+
+  push _pStr;
+  sub String::Print;
+  print _i;
+
+  lab cont;
+  put _i = _i + 1;
+jump loop ~  _i < 32;

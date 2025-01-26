@@ -1,0 +1,36 @@
+use 'libs/stack.baabnq';
+
+
+jump skip;
+"pulls value from the stack 'till it hits a null terminator and sums them
+lab SumStack;
+pull _RetAddr;
+put _SumStack::Sum = 0;
+
+lab SumStack::Iter;
+pull _Data;
+put _SumStack::Sum = _SumStack::Sum + _Data;
+jump SumStack::Iter ~ _Data != 0;
+
+push _SumStack::Sum;
+push _RetAddr;
+return;
+
+
+
+
+lab skip;
+
+
+
+
+
+
+push 0;
+push 1;
+push 2;
+push 3;
+sub SumStack;
+
+pull _value;
+print _value;

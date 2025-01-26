@@ -1,0 +1,3 @@
+print 15;
+put _a = 4;
+print (_a + 5) - 2;

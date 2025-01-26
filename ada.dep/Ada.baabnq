@@ -1,0 +1,12 @@
+use 'libs/float.baabnq';
+
+"in honor of ada lovelace, the worlds first programmer
+"translated from ada.c
+
+push 4;
+sub Floats::Value2Fp;
+pull _n;
+
+
+
+

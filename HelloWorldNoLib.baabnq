@@ -1,0 +1,13 @@
+put _index = 0;
+
+static 'Hello World\n' _ptr;
+
+lab loop;
+put _data <- _index + _ptr;
+put _index = _index + 1;
+
+jump exit ~ _data == 0;
+
+putchr _data;
+jump loop;
+lab exit;

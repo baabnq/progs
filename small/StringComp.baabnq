@@ -1,0 +1,103 @@
+jump skip;
+
+lab strcmp;
+put _Strcmp::ReturnAddr = 0;
+put _Strcmp::ArgString = 0;
+put _Strcmp::ArgPattern = 0;
+
+put _Strcmp::DataString = 0;
+put _Strcmp::DataPattern = 0;
+
+pull _Strcmp::ReturnAddr;
+pull _Strcmp::ArgString;
+pull _Strcmp::ArgPattern;
+
+lab strcmp::mainLoop;
+"deref the pointer
+put _Strcmp::DataString <- _Strcmp::ArgString;
+put _Strcmp::DataPattern <- _Strcmp::ArgPattern;
+
+jump strcmp::isEqual ~ _Strcmp::DataPattern == 0;
+jump strcmp::notEqual ~ _Strcmp::DataString != _Strcmp::DataPattern;
+
+put _Strcmp::ArgString = _Strcmp::ArgString + 1;
+put _Strcmp::ArgPattern = _Strcmp::ArgPattern + 1;
+jump strcmp::mainLoop;
+
+lab strcmp::notEqual;
+push 0;
+push _Strcmp::ReturnAddr;
+return;
+
+lab strcmp::isEqual;
+push 1;
+push _Strcmp::ReturnAddr;
+return;
+
+
+
+
+lab strin;
+put _Strin::Base = 0;
+put _Strin::Iterator = 0;
+put _ReturnAddr = 0;
+
+pull _ReturnAddr;
+pull _Strin::Base;
+pull _Strin::Iterator;
+push _ReturnAddr;
+
+lab Strin::mainLoop;
+
+push _Strin::Iterator;
+push _Strin::Base;
+sub strcmp;
+
+put _Strin::StrCmpBool = 0;
+pull _Strin::StrCmpBool;
+jump Strin::match ~ _Strin::StrCmpBool == 1;
+
+put _Strin::BaseData = 0;
+put _Strin::BaseData  <- _Strin::Base;
+put _Strin::Base = _Strin::Base + 1;
+
+jump Strin::mainLoop ~ _Strin::BaseData != 0;
+
+pull _ReturnAddr;
+push 0;
+push _ReturnAddr;
+return;
+
+lab Strin::match;
+pull _ReturnAddr;
+push 1;
+push _ReturnAddr;
+return;
+
+
+
+
+
+
+lab skip;
+
+new 'Properties: Not like german\n' _Data;
+put _Me = 100;
+put _Data -> _Me;
+
+
+"now we want to find out if _Data form the _Me pointer contains 'german'
+put _Base = 0;
+put _Base <- _Me;
+
+new 'Not like' _Iterator;
+
+push _Iterator;
+push _Base;
+
+sub strin;
+
+
+put _ContainsBool = 0;
+pull _ContainsBool;
+print _ContainsBool;

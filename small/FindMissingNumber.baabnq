@@ -1,0 +1,35 @@
+use 'libs/array.baabnq';
+
+put _size = 10;
+
+new _size _ptr;
+put 3 -> _ptr + 0;
+put 1 -> _ptr + 1;
+put 2 -> _ptr + 2;
+put 8 -> _ptr + 3;
+put 7 -> _ptr + 4;
+put 5 -> _ptr + 5;
+put 4 -> _ptr + 6;
+put 9 -> _ptr + 8;
+put 0 -> _ptr + 9;
+
+
+
+"find max sum
+put _index = 0;
+put _maxSum = 0;
+lab SumLoop;
+put _index = _index + 1;
+put _maxSum = _maxSum + _index;
+jump SumLoop ~ _index != _size;
+"step back
+put _maxSum = _maxSum - _index;
+
+
+
+"get current sum
+push _ptr;
+sub Array::Sum;
+pull _currentSize;
+
+print _maxSum - _currentSize;

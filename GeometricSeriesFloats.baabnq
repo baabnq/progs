@@ -1,0 +1,15 @@
+use 'libs/float.baabnq';
+
+push 0;
+sub Floats::Value2Fp;
+pull _Acc;
+
+push 1;
+sub Floats::Value2Fp;
+push 2;
+sub Floats::Value2Fp;
+sub Floats::Div;
+pull __;
+print __;
+
+lab Loop;

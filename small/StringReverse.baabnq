@@ -1,0 +1,36 @@
+"only for printing
+use 'libs/string.baabnq';
+
+
+new '0123456789' _InputPtr;
+
+"find the length of the input string
+put _SizeT = 0;
+
+lab FindSizeLoop;
+put _Data <- _InputPtr + _SizeT;
+put _SizeT = _SizeT + 1;
+jump FindSizeLoop ~ _Data != 0;
+
+"allocate the correct size for the new string
+new _SizeT _OutputPtr;
+
+"populate alloc mem with reverse string
+put _InputIndex = 0;
+put _OutputIndex = _SizeT - 2;
+
+lab ReverseStringLoop;
+put _CharIter <- _InputIndex + _InputPtr;
+jump Exit ~ _CharIter == 0;
+put _CharIter -> _OutputIndex + _OutputPtr;
+
+put _InputIndex = _InputIndex + 1;
+put _OutputIndex = _OutputIndex - 1;
+jump ReverseStringLoop;
+lab Exit;
+
+push _OutputPtr;
+sub String::PrintString;
+
+
+free _OutputPtr;

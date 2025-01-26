@@ -1,0 +1,43 @@
+
+use 'libs/stack.baabnq';
+use 'libs/no.baabnq';
+
+"REAL SLOW; REAL QUICK
+
+put _c = 0;
+lab loop;
+
+    push _c;
+    sub fib;
+    pull __;
+    print __;
+
+    put _c = _c + 1;
+jump loop ~ _c < 20;
+
+asm 'brk';
+
+
+lab fib;
+    sub Stack::Swap;
+    pull _i;
+
+    "base case
+    put __ = _i & (0 - 2);
+    jump fib::skipbase ~ __ != 0;
+        push 1;
+        sub Stack::Swap;
+        return;
+    lab fib::skipbase;
+
+    push _i - 2;
+    push _i - 1;
+    sub fib;
+    sub Stack::Swap;
+    sub fib;
+
+    sub Math::Add;
+    sub Stack::Swap;
+    return;    
+
+

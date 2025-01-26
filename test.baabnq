@@ -1,0 +1,7 @@
+use 'libs/float.baabnq';
+
+push 16384;
+push 1052;
+sub Floats::Add;
+pull __;
+print __;
