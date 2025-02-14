@@ -7,7 +7,7 @@ use 'libs/stack.baabnq';
 "what a revelation!!!!!
 
 "this program runs a language for a bct, called cl
-"here's the semantics (important to note is, if you didnot read the esolangs article, that bct store all data in a binary queue)
+"here's the semantics (important to note is, if you didnot read the esolangs article, that bct stores all data in a binary queue)
 
 " ; -> remove element from end of queue and discard it (101 -> 01, 011 -> 11)
 " 0 -> if the end of the queue is a 1, then append a 0 to the queue (10 -> 100, 0 -> 0)
@@ -18,7 +18,7 @@ use 'libs/stack.baabnq';
 
 "the queue is implemented using a bunch of linked nodes
 "a node is defined like this:
-"    NPtr + 0     next node ptr (0 for end)
+"    NPtr + 0     next node ptr (NULL for end)
 "    NPtr + 1     content
 
 
@@ -26,8 +26,14 @@ use 'libs/stack.baabnq';
 
 
 "define the program and data
-static '1010;01;' _G::Prog;
-static '1001'     _G::Data;
+"mul2
+"static '1010;01;' _G::Prog;
+"static '1001'     _G::Data;
+
+"collatz
+static '010001;100;100100100;;;;' _G::Prog;
+static '100100100' _G::Data;
+
 put _G::ProgSize <- _G::Prog - 1;
 put _G::StartNodePtr = 0;
 put _G::EndNodePtr = 0;
@@ -46,15 +52,18 @@ lab PrintQueue;
         put _Temp <- _Data;
         put _Content <- _Data + 1;
         print _Content;
-        
+
         jump PrintQueue::Exit ~ _Temp == 0;
         put _Data = _Temp;
         jump PrintQueue::Loop;
     lab PrintQueue::Exit;
+
+
+    put _i = 0; lab wait; put _i = _i + 1; jump wait ~ _i < 1000;
+
     putchr 10;
 return;
 
-"helper for reseting epstein...   i mean execution pointer
 lab ResetEp;
     put _Ep = 0;
 return;
@@ -106,10 +115,6 @@ lab Interpret;
 
     "print current state of queue
     sub PrintQueue;
-    push 250;
-    asm 'plugin Time::SleepMs';    
-
-
 
     jump Interpret::Discard   ~ _Command == 59;
     jump Interpret::IfAppend0 ~ _Command == 48;
