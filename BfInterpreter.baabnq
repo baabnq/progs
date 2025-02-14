@@ -1,3 +1,9 @@
+"notice from the future (it's 2025):
+"this is one of the first "bigger" baabnq program i ever wrote.
+"it was like 3-4 years ago when i wrote this.
+"back then, there was no libraries or style consistencies,
+"so i had to refactor this now. (you can still see the original in the git history)
+
 
 static '
  A mandelbrot set fractal viewer in brainfuck written by Erik Bosman
@@ -155,109 +161,102 @@ put _MemPtr = 65535;
 put _IndentLevel = 0;
 
 lab MainLoop;
-put _Command <- _ExePtr;
+    put _Command <- _ExePtr;
 
-sub inc ~ _Command == 43;
-sub dec ~ _Command == 45;
+    sub Inc   ~ _Command == 43; "+
+    sub Dec   ~ _Command == 45; "-
+    sub Out   ~ _Command == 46; ".
+    sub Inp   ~ _Command == 44; ",
+    sub Right ~ _Command == 62; ">
+    sub Left  ~ _Command == 60; "<
+    sub Start ~ _Command == 91; "[
+    sub End   ~ _Command == 93; "]
 
-sub out ~ _Command == 46;
-sub inp ~ _Command == 44;
+    put _ExePtr = _ExePtr + 1;
 
-sub mvr ~ _Command == 62;
-sub mvl ~ _Command == 60;
+    jump MainLoop ~ _Command != 0;
 
-sub loo ~ _Command == 91;
-sub end ~ _Command == 93;
-
-put _ExePtr = _ExePtr + 1;
-
-jump MainLoop ~ _Command != 0;
-jump Exit;
+asm 'brk';
 
 
 
-lab inc;
-put _Data <- _MemPtr;
-put (_Data + 1) & 255 -> _MemPtr;
-return;
+lab Inc;
+    put  _Data            <- _MemPtr;
+    put (_Data + 1) & 255 -> _MemPtr;
+    return;
 
 
-lab dec;
-put _Data <- _MemPtr;
-put (_Data - 1) & 255 -> _MemPtr;
-return;
+lab Dec;
+    put  _Data            <- _MemPtr;
+    put (_Data - 1) & 255 -> _MemPtr;
+    return;
 
-lab out;
-put    _Data <- _MemPtr;
-putchr _Data;
-return;
+lab Out;
+    put    _Data <- _MemPtr;
+    putchr _Data;
+    return;
 
-lab inp;
-"this is not a correct implementation, because this doesn't gets input as ascii
-"but i can't do anything about that, because baabnq currently doesn't have a ascii input command
-"bruh moment
+lab Inp;
+    "this is not a correct implementation, because this doesn't get input as ascii
+    "but i'm too lazy to fix it
 
-"i add 48 so as to account for the ascii offset
-input _Data;
-put   _Data & 255 -> _MemPtr;
-return;
+    input _Data;
+    put   _Data & 255 -> _MemPtr;
+    return;
 
-lab mvr;
-"we reverse the memspace, because i don't want to move the base value
-"because i dont know how big the program is and thus not know how much i need to move the user memory
-jump DoReturn ~ _MemPtr == 1000;
-put _MemPtr = _MemPtr - 1;
-return;
+lab Right;
+    "reverse the memspace, because segmentation could cause problems
+    jump DoReturn ~ _MemPtr == 1000;
+    put _MemPtr = _MemPtr - 1;
+    return;
 
 
-lab mvl;
-"here's the same deal as in mvr
-jump DoReturn ~ _MemPtr == 65535;
-put _MemPtr = _MemPtr + 1;
-return;
+lab Left;
+    "here's the same deal as in mvr
+    jump DoReturn ~ _MemPtr == 65535;
+    put _MemPtr = _MemPtr + 1;
+    return;
 
-lab loo;
-put _Data <- _MemPtr;
-put _IndentLevel = 1;
-jump DoReturn ~ _Data != 0;
-lab EndIterator;
-put _ExePtr = _ExePtr + 1;
-put _Data <- _ExePtr;
+lab Start;
+    put _Data <- _MemPtr;
+    jump DoReturn ~ _Data != 0;
 
-sub IndentLevelInc ~ _Data == 91;
-sub IndentLevelDec ~ _Data == 93;
+    put _IndentLevel = 1;
+    lab Start::FindEnd;
+        put _ExePtr = _ExePtr + 1;
+        put _Data <- _ExePtr;
 
-jump EndIterator ~ _Data != 93;
-jump EndIterator ~ _IndentLevel != 0;
-return;
+        sub IndentLevelInc ~ _Data == 91;
+        sub IndentLevelDec ~ _Data == 93;
+    jump Start::FindEnd ~ _Data != 93;
+    jump Start::FindEnd ~ _IndentLevel != 0;
+    return;
 
-lab end;
-put _Data <- _MemPtr;
-put _IndentLevel = 0 - 1;
-jump DoReturn ~ _Data == 0;
-lab StartIterator;
-put _ExePtr = _ExePtr - 1;
-put _Data <- _ExePtr;
+lab End;
+    put _Data <- _MemPtr;
+    jump DoReturn ~ _Data == 0;
 
-sub IndentLevelInc ~ _Data == 91;
-sub IndentLevelDec ~ _Data == 93;
+    put _IndentLevel = 0 - 1;
+    lab End::FindStart;
+        put _ExePtr = _ExePtr - 1;
+        put _Data <- _ExePtr;
 
-jump StartIterator ~ _Data        != 91;
-jump StartIterator ~ _IndentLevel != 0;
-return;
+        sub IndentLevelInc ~ _Data == 91;
+        sub IndentLevelDec ~ _Data == 93;
+    jump End::FindStart ~ _Data        != 91;
+    jump End::FindStart ~ _IndentLevel != 0;
+    return;
 
 
 lab IndentLevelInc;
-put _IndentLevel = _IndentLevel + 1;
-return;
+    put _IndentLevel = _IndentLevel + 1;
+    return;
 
 lab IndentLevelDec;
-put _IndentLevel = _IndentLevel - 1;
-return;
-
+    put _IndentLevel = _IndentLevel - 1;
+    return;
 
 lab DoReturn;
-return;
+    return;
 
 
-lab Exit;
