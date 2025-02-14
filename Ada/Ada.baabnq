@@ -1,8 +1,8 @@
 use 'libs/float.baabnq';
 use 'libs/math.baabnq';
 
-"in honor of ada lovelace, the worlds first programmer
-"translated from ada.c
+"in honor of Ada Lovelace, the worlds first programmer
+"translated from Ada.c
 
 "nth bern number
 put _nBern = 4;
@@ -102,10 +102,22 @@ lab mainLoop;
     jump mainLoop ~ _cnt > 0;
 
 "printf("B7: %.2f\n", -out)
-push _out;
-sub Floats::SetSign;
-pull _out;
 
+"output is done by scaling up the result by 1000
+"expected: -0.033
+"received: -0.036
+"the error is 0.003 (due to the Floats implementation)
+putchr 45; "-
+putchr 48; "0
+putchr 46; ".
+putchr 48; "0
+
+push _out;
+push 1000;
+sub Floats::Value2Fp;
+sub Floats::Mul;
+sub Floats::Fp2Value;
+pull __; print __;
 
 
 

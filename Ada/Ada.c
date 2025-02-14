@@ -44,7 +44,7 @@ int main()
 	}
 
 	//sign conversion ususally handled by engine
-	printf("B7: %.2f\n", -out);
+	printf("B7: %.5f\n", -out);
 
 	return 0;
 }
