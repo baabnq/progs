@@ -1,7 +1,3 @@
--rw-r--r--  1 root wheel   1504 Jan 30 02:29 BubbleSort.baabnq
--rw-r--r--  1 root wheel    379 Jan 30 02:29 CountBillion.baabnq
--rw-r--r--  1 root wheel   7798 Jan 30 02:29 ExprEval.baabnq
--rw-r--r--  1 root wheel   6052 Jan 30 02:29 ExprPlotter.baabnq
 -rw-r--r--  1 root wheel    863 Jan 30 02:29 FastDiv10.baabnq
 -rw-r--r--  1 root wheel    127 Jan 30 02:29 Fib.baabnq
 -rw-r--r--  1 root wheel    547 Jan 30 02:29 FibRec.baabnq
