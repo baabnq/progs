@@ -4,10 +4,10 @@ put _b = 1;
 put _c = 0;
 
 lab loop;
-put _c = _a + _b;
-put _a = _b;
-put _b = _c;
+    put _c = _a + _b;
+    put _a = _b;
+    put _b = _c;
 
-print _c;
+    print _c;
+jump loop ~ _c != 46368;
 
-jump loop ~ _c != 233;
