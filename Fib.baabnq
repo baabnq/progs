@@ -3,11 +3,11 @@ put _a = 0;
 put _b = 1;
 put _c = 0;
 
-lab loop;
+lab Loop;
     put _c = _a + _b;
     put _a = _b;
     put _b = _c;
 
     print _c;
-jump loop ~ _c != 46368;
+jump Loop ~ _c != 46368;
 
