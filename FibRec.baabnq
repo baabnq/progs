@@ -4,39 +4,34 @@ use 'libs/no.baabnq';
 
 "REAL SLOW; REAL QUICK
 
-put _c = 0;
-lab loop;
 
-    push _c;
-    sub fib;
-    pull __;
-    print __;
-
-    put _c = _c + 1;
-jump loop ~ _c < 20;
+push 23; "24th fib number => 46368
+sub FibRec;
+pull __; print __;
 
 asm 'brk';
 
 
-lab fib;
+lab FibRec;
     sub Stack::Swap;
     pull _i;
 
+
     "base case
-    put __ = _i & (0 - 2);
-    jump fib::skipbase ~ __ != 0;
-        push 1;
-        sub Stack::Swap;
-        return;
-    lab fib::skipbase;
+    push 1;
+    sub Stack::Swap;
+        sub No::Return ~ _i < 2;
+    sub Stack::Swap;
+    pull __;
 
     push _i - 2;
     push _i - 1;
-    sub fib;
+    sub FibRec;
     sub Stack::Swap;
-    sub fib;
+    sub FibRec;
 
     sub Math::Add;
+
     sub Stack::Swap;
     return;    
 
