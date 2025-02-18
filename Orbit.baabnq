@@ -10,7 +10,7 @@ put _alpha = _Floats::Zero;
 
 push _radius;
 sub Floats::Value2Fp;
-pull _fradius;
+pull _fRadius;
 
 
 static '\033[1;1H\033[2J' _sClear;
@@ -28,7 +28,7 @@ lab loop;
     sub Trig::Sin;    
 
     "conversion
-    push _fradius;
+    push _fRadius;
     sub Floats::Mul;
     sub Floats::Fp2Value;
     sub Stack::Dup;
@@ -38,7 +38,7 @@ lab loop;
     sub Math::Add;
     pull _y;
 
-    push _fradius;
+    push _fRadius;
     sub Floats::Mul;
     sub Floats::Fp2Value;
     sub Stack::Dup;
@@ -49,9 +49,9 @@ lab loop;
     pull _x;
 
 
-    "reset alpha
-    "needed because eventually floating point rounding
-    "will make it impossible to add small numbers to alpha    
+    "reset alpha.
+    "this is needed because eventually floating point rounding
+    "will make it impossible to add small numbers to alpha.
     jump skip ~ _vx != 0;
     jump skip ~ _vy != _radius;
         put _alpha = _Floats::Zero;
