@@ -7,17 +7,17 @@ put _a = 0;
 put _b = 1;
 put _c = 0;
 
-lab fibLoop;
+lab FibLoop;
     put _c = _a + _b;
     put _a = _b;
     put _b = _c;
-jump fibLoop ~ _c < 10946;
+jump FibLoop ~ _c < 10946;
 
 
 put _doRadixPoint = 1;
 
 put _i = 0;
-lab printLoop;
+lab PrintLoop;
     push _i;
 
     "in-frame for Math::Mod
@@ -32,10 +32,10 @@ lab printLoop;
     pull _d;
     putchr _d + 48;
 
-    jump skipRadixPoint ~ _doRadixPoint != 1;
+    jump SkipRadixPoint ~ _doRadixPoint != 1;
         putchr 46;
         put _doRadixPoint = 0;
-    lab skipRadixPoint;
+    lab SkipRadixPoint;
 
     sub Math::Mod;
     push 10;
@@ -44,6 +44,6 @@ lab printLoop;
     
     pull _i;
     put _i = _i + 1;
-jump printLoop ~ _i < 10;
+jump PrintLoop ~ _i < 10;
 
 putchr 10;
