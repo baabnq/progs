@@ -1,5 +1,6 @@
 use 'libs/string.baabnq';
-static 'Hello World' _ptr;
-push _ptr;
-sub String::Print;
 
+static 'Hello, World!\n' _sHello;
+
+push _sHello;
+sub String::Print;
