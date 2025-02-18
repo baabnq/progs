@@ -1,6 +1,3 @@
--rw-r--r--  1 root wheel   1306 Jan 30 02:29 Orbit.baabnq
--rw-r--r--  1 root wheel    581 Jan 30 02:29 PhiDiv.baabnq
--rw-r--r--  1 root wheel    443 Jan 30 02:29 PiDiv.baabnq
 -rw-r--r--  1 root wheel    766 Jan 30 02:29 Quine.baabnq
 -rw-r--r--  1 root wheel    721 Jan 30 02:29 Rectangle.baabnq
 -rw-r--r--  1 root wheel   1104 Jan 30 02:29 Toki Jan.baabnq
