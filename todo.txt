@@ -1,9 +1,3 @@
--rw-r--r--  1 root wheel     84 Jan 30 02:29 HelloWorld.baabnq
--rw-r--r--  1 root wheel    171 Jan 30 02:29 HelloWorldNoLib.baabnq
--rw-r--r--  1 root wheel   1928 Jan 30 02:29 MandelFixed.baabnq
--rw-r--r--  1 root wheel   3570 Jan 30 02:29 MandelFloat.baabnq
--rw-r--r--  1 root wheel   3458 Jan 30 02:29 MandelFloatPPM.baabnq
--rw-r--r--  1 root wheel   2396 Jan 30 02:29 MandelbrotSetDEP.baabnq
 -rw-r--r--  1 root wheel   1306 Jan 30 02:29 Orbit.baabnq
 -rw-r--r--  1 root wheel    581 Jan 30 02:29 PhiDiv.baabnq
 -rw-r--r--  1 root wheel    443 Jan 30 02:29 PiDiv.baabnq
