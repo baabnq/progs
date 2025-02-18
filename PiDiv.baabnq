@@ -1,16 +1,20 @@
 use 'libs/math.baabnq';
 
+"355 / 133 is a famous rational approximation of pi
 put _a = 355;
 put _b = 113;
 
-put _doDecPt = 1;
+put _doRadixPoint = 1;
 
 put _i = 0;
-lab loop;
+lab Loop;
     push _i;
 
+    "in-frame for Math::Mod
     push _a;
     push _b;
+
+    "in-frame for Math::Div
     push _a;
     push _b;
 
@@ -18,10 +22,10 @@ lab loop;
     pull _d;
     putchr _d + 48;
 
-    jump skipDecPt ~ _doDecPt != 1;
+    jump SkipRadixPoint ~ _doRadixPoint != 1;
         putchr 46;
-        put _doDecPt = 0;
-    lab skipDecPt;
+        put _doRadixPoint = 0;
+    lab SkipRadixPoint;
 
     sub Math::Mod;
     push 10;
@@ -30,7 +34,7 @@ lab loop;
     
     pull _i;
     put _i = _i + 1;
-jump loop ~ _i < 10;
+jump Loop ~ _i < 10;
 
 
-
+putchr 10;
