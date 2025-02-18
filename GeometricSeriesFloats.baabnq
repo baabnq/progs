@@ -1,15 +1,44 @@
 use 'libs/float.baabnq';
 
+
 push 0;
 sub Floats::Value2Fp;
-pull _Acc;
+pull _acc;
 
-push 1;
-sub Floats::Value2Fp;
-push 2;
-sub Floats::Value2Fp;
-sub Floats::Div;
+push 1; sub Floats::Value2Fp;
+push 1; sub Floats::ShiftSmall;
+pull _aux;
+
+put _i = 0;
+
+lab Loop;
+    
+    push _acc;
+    push _aux;
+    sub Floats::Add;
+    pull _acc;
+
+    push _aux;
+    push 1;
+    sub Floats::ShiftSmall;
+    pull _aux;
+
+    put _i = _i + 1;
+
+    jump Loop ~ _i < 100;
+
+"output is done by scaling up the result by 1000
+"expected: 1.0
+"received: 0.996
+"the error is 0.004 (due to the Floats implementation)
+putchr 48; "0
+putchr 46; ".
+
+push _acc;
+push 1000; sub Floats::Value2Fp;
+sub Floats::Mul;
+sub Floats::Fp2Value;
 pull __;
 print __;
 
-lab Loop;
+
