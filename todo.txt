@@ -1,6 +1,3 @@
--rw-r--r--  1 root wheel    766 Jan 30 02:29 Quine.baabnq
--rw-r--r--  1 root wheel    721 Jan 30 02:29 Rectangle.baabnq
--rw-r--r--  1 root wheel   1104 Jan 30 02:29 Toki Jan.baabnq
 -rw-r--r--  1 root wheel  12735 Jan 30 02:29 TreeParseEvalMathExpr.baabnq
 -rw-r--r--  1 root wheel    534 Jan 26 20:43 main.baabnq
 -rw-r--r--  1 root wheel 343047 Jan 30 02:29 mandel.pgm
