@@ -1,13 +1,13 @@
-put _index = 0;
 
-static 'Hello World\n' _ptr;
+static 'Hello, World!\n' _sHello;
 
-lab loop;
-put _data <- _index + _ptr;
-put _index = _index + 1;
+"pointer to iterate over string
+put _sIter = _sHello;
 
-jump exit ~ _data == 0;
+lab Loop;
+    put _char <- _sIter;
+    put _sIter = _sIter + 1;
 
-putchr _data;
-jump loop;
-lab exit;
+    putchr _char;
+
+jump Loop ~ _char != 0;
