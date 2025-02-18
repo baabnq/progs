@@ -1,0 +1,43 @@
+use 'ext/fracs.baabnq';
+
+push 0;
+sub Fracs::Value2Frac;
+pull _acc; "0/1
+
+push 2;
+sub Fracs::Value2Frac;
+sub Fracs::Reciprocal;
+pull _aux; "1/2
+
+put _i = 0;
+
+
+lab Loop;
+    push _i;
+
+    push _acc;
+    push _aux; sub Fracs::Copy;
+    sub Fracs::Add;
+    pull _acc;
+
+    put _den        <- _aux + _Fracs::Frac::DENER;
+    put (_den << 1) -> _aux + _Fracs::Frac::DENER;
+    
+    pull _i;
+    put _i = _i + 1;
+jump Loop ~ _i < 7; 
+
+
+
+"output is done by scaling up the result by 1000
+"expected: 1.0
+"received: 63/64 = 0.984375
+"the error is 0.015625 (due to the Fracs implementation)
+
+putchr 10;
+put __ <- _acc + _Fracs::Frac::NUMER; print __;
+putchr 47; putchr 10;
+put __ <- _acc + _Fracs::Frac::DENER; print __;
+putchr 10;
+
+asm 'brk';
