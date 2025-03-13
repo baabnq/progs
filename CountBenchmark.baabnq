@@ -1,0 +1,34 @@
+"counting to a million benchmark, to compare to TempleOS
+"(on 16-bit, bruh)
+
+
+"(7, cuz one mil has 7) digits for counting
+put _counterSize = 7;
+new _counterSize _pCounter;
+
+lab MainLoop;
+    put _index = 0;
+    lab CountLoop;
+        put _digit <- _pCounter + _index;
+        jump CountDone ~ _digit < 9;
+        put 0 -> _pCounter + _index; "overflow, process, move to next digit
+        put _index = _index + 1;
+        jump CountLoop;
+    lab CountDone;
+    put _digit + 1 -> _pCounter + _index;
+
+    "print
+    put _index = _counterSize;
+    lab PrintLoop;
+        put _index = _index - 1;
+        put _digit <- _pCounter + _index;
+        putchr _digit + 48;
+        jump PrintLoop ~ _index > 0;
+    putchr 10;
+
+    "count untill the last digit is 1
+    put _digit <- _pCounter + 6;
+    jump MainLoop ~ _digit != 1;
+
+
+free _pCounter;
