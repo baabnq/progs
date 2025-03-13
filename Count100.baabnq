@@ -1,0 +1,5 @@
+put _index = 0;
+lab Loop;
+    put _index = _index + 1;
+    print _index;
+    jump Loop ~ _index < 100;
