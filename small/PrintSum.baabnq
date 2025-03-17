@@ -1,4 +1,0 @@
-put _a = 2;
-put _b = 3;
-
-print _a + _b;
