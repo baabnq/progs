@@ -1,6 +1,0 @@
-put _test = 10;
-asm '
-lDA (_test); 
-sAD -myTemp;
-out -myTemp;
-';

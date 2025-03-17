@@ -1,5 +1,0 @@
-"set an test value
-push 10;
-"pull it again
-pull _a;
-"now _a is equal to 10
