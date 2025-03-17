@@ -1,0 +1,17 @@
+use 'libs/chunk.baabnq';
+use 'libs/string.baabnq';
+
+
+new 10 _p;
+
+push _p;
+push 0;
+push 10;
+sub Chunk::Range;
+
+push _p;
+sub Chunk::Reverse;
+
+push _p;
+sub Chunk::Print;
+

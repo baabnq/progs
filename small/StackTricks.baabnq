@@ -1,7 +1,0 @@
-jump skip;
-print 10;
-lab skip;
-
-
-push 2;
-return;
