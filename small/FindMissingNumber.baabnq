@@ -1,4 +1,25 @@
-use 'libs/array.baabnq';
+use 'libs/chunk.baabnq';
+
+"the problem:
+"   let there be a set of interval natural numbers,
+"   starting from zero, such that one integer is missing.
+"   (with fancy notation: [0..s]\{m})
+"   find that missing number.
+
+
+"the solution:
+"   compute two things.
+"   firstly,  the sum over the iota function from 1 to the biggest element in the list.
+"   secondly, the sum over the given list.
+"   the absolute difference is your answer.
+
+"f.zu ni e.zu tezemi u.tejur i.tenzu rbi mu-
+"as you might be able to see, this is not never difficult.
+"wie man erkennen möge, ist dies nicht sehr schwer.
+"ut forsit intellegis, hoc non est difficile.
+"tabun, anataga wakaru, koreha muzukashikunai dayo. (romajide gomennasai)
+
+
 
 put _size = 10;
 
@@ -13,23 +34,16 @@ put 4 -> _ptr + 6;
 put 9 -> _ptr + 8;
 put 0 -> _ptr + 9;
 
+"notice, that the above list is missing a 6
 
+new _size _iota;
+"iota(1, size)
+push _iota; push 1; push _size; sub Chunk::Range;
+"sum(iota(1, size))
+push _iota; sub Chunk::Sum; pull _sumIota;
 
-"find max sum
-put _index = 0;
-put _maxSum = 0;
-lab SumLoop;
-put _index = _index + 1;
-put _maxSum = _maxSum + _index;
-jump SumLoop ~ _index != _size;
-"step back
-put _maxSum = _maxSum - _index;
+"sum(list)
+push _ptr; sub Chunk::Sum; pull _sumList;
 
-
-
-"get current sum
-push _ptr;
-sub Array::Sum;
-pull _currentSize;
-
-print _maxSum - _currentSize;
+put _missing = _sumIota - _sumList;
+print _missing;
