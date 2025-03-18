@@ -13,12 +13,12 @@ use 'libs/chunk.baabnq';
 "   secondly, the sum over the given list.
 "   the absolute difference is your answer.
 
-"f.zu ni e.zu tezemi u.tejur i.tenzu rbi mu-
-"as you might be able to see, this is not never difficult.
-"wie man erkennen möge, ist dies nicht sehr schwer.
-"ut forsit intellegis, hoc non est difficile.
-"tabun, anataga wakaru, koreha muzukashikunai dayo. (romajide gomennasai)
-
+"dx: f.zu ni e.zu tezemi u.tejur i.tenzu rbi mu-
+"en: as you might be able to see, this is not never difficult.
+"de: wie man erkennen möge, ist dies nicht sehr schwer.
+"la: ut forsit intellegis, hoc non est difficile.
+"ja: 多分、貴方が分かる、此れは難しくないだよ。
+"(didn't use google translate, which might explain the lack of quality)
 
 
 put _size = 10;
