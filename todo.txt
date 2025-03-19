@@ -1,8 +1,1 @@
 -rw-r--r--  1 root wheel  12735 Jan 30 02:29 TreeParseEvalMathExpr.baabnq
--rw-r--r--  1 root wheel   49 Jan 30 02:29 StackTricks.baabnq
--rw-r--r--  1 root wheel 1707 Jan 30 02:29 StringComp.baabnq
--rw-r--r--  1 root wheel  708 Jan 30 02:29 StringReverse.baabnq
--rw-r--r--  1 root wheel 2028 Jan 30 02:29 Sum2dArray.baabnq
--rw-r--r--  1 root wheel  633 Jan 30 02:29 SumArray.baabnq
--rw-r--r--  1 root wheel  415 Jan 30 02:29 SumStack.baabnq
--rw-r--r--  1 root wheel  549 Jan 30 02:29 bool.baabnq
